@@ -30,7 +30,7 @@ exports.user_sign_up_post = [
     if (!errs.isEmpty()) {
       return res.render("sign_up", {
         title: "Sign-up",
-        error: errs,
+        error: "Passwords must match",
       });
     }
 
@@ -61,3 +61,11 @@ exports.user_sign_up_post = [
     });
   },
 ];
+
+exports.status_change_get = (req, res, next) => {
+  res.render("status_change", {
+    title: "Change status",
+  });
+};
+
+exports.status_change_post = (req, res, next) => {};

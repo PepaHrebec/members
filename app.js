@@ -5,10 +5,25 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+const session = require("express-session");
+const indexRouter = require("./routes/index");
 require("dotenv").config();
 
-var indexRouter = require("./routes/index");
+// init app
+var app = express();
 
+// init session
+app.use(
+  session({ secret: "supersecret", resave: false, saveUninitialized: false })
+);
+
+// init strategies and passport
+const initializePassport = require("./passport_config");
+initializePassport(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// connect to MongoDB
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 const mongoDB = process.env.PASSWD;
@@ -17,8 +32,6 @@ main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(mongoDB);
 }
-
-var app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -30,6 +43,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// use routers
 app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
