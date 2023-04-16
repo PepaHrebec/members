@@ -1,6 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
+const passport = require("passport");
 
 exports.user_sign_up_get = (req, res, next) => {
   res.render("sign_up", {
@@ -67,5 +68,33 @@ exports.status_change_get = (req, res, next) => {
     title: "Change status",
   });
 };
+
+exports.user_log_in_get = (req, res, next) => {
+  res.render("log_in", { title: "Log-in", error: req.session.messages });
+};
+
+exports.user_log_in_post = [
+  body("username")
+    .trim()
+    .escape()
+    .isLength({ min: 3, max: 100 })
+    .withMessage("Username must be at least 3 characters."),
+  body("password")
+    .trim()
+    .escape()
+    .isLength({ min: 3, max: 100 })
+    .withMessage("Password must be at least 3 characters."),
+  (req, res, next) => {
+    const errs = validationResult(req);
+    if (!errs.isEmpty()) {
+      res.render("log_in", { title: "Log-in" });
+    }
+    passport.authenticate("local", {
+      successRedirect: "/" + req.body.username,
+      failureRedirect: "/log-in",
+      failureMessage: true,
+    })(req, res, next);
+  },
+];
 
 exports.status_change_post = (req, res, next) => {};

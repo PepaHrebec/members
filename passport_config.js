@@ -10,7 +10,9 @@ function init(passport) {
         return done(null, false, { message: "Incorrect username" });
       }
       bcrypt.compare(password, user.password, (err, res) => {
-        if (res) {
+        if (err) {
+          return done(err);
+        } else if (res) {
           return done(null, user);
         } else {
           return done(null, false, { message: "Incorrect password" });
@@ -21,9 +23,14 @@ function init(passport) {
     }
   };
   passport.use(new LocalStrategy(authenticateUser));
-  passport.serializeUser((user, done) => done(null, user._id));
-  passport.deserializeUser((id, done) => {
-    return done(null, getUserById(id));
+  passport.serializeUser((user, done) => done(null, user.id));
+  passport.deserializeUser(async function (id, done) {
+    try {
+      const user = await User.findById(id);
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
   });
 }
 

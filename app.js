@@ -6,7 +6,6 @@ var logger = require("morgan");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const session = require("express-session");
-const indexRouter = require("./routes/index");
 require("dotenv").config();
 
 // init app
@@ -22,6 +21,8 @@ const initializePassport = require("./passport_config");
 initializePassport(passport);
 app.use(passport.initialize());
 app.use(passport.session());
+
+const indexRouter = require("./routes/index");
 
 // connect to MongoDB
 const mongoose = require("mongoose");
