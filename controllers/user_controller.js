@@ -69,6 +69,18 @@ exports.status_change_get = (req, res, next) => {
   });
 };
 
+exports.status_change_post = (req, res, next) => {
+  if (req.body.password === "Invite") {
+    User.findByIdAndUpdate(req.user.id, { status: true }).then(() => {
+      return res.redirect("/");
+    });
+  } else {
+    res.render("status_change", {
+      title: "Change status",
+    });
+  }
+};
+
 exports.user_log_in_get = (req, res, next) => {
   res.render("log_in", { title: "Log-in", error: req.session.messages });
 };
@@ -90,11 +102,9 @@ exports.user_log_in_post = [
       res.render("log_in", { title: "Log-in" });
     }
     passport.authenticate("local", {
-      successRedirect: "/" + req.body.username,
+      successRedirect: "/",
       failureRedirect: "/log-in",
       failureMessage: true,
     })(req, res, next);
   },
 ];
-
-exports.status_change_post = (req, res, next) => {};
