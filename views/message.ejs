@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <form action="" method="post">
+      <label for="message">Message:</label>
+      <input type="text" id="message" name="message" />
+      <% messages.forEach(message => { %>
+      <div>
+        <h2><%= message.title %></h2>
+        <div>Author: <% user !== undefined ? message.author : "Hidden" %></div>
+        <div>Time: <% user !== undefined ? message.timestamp : "Hidden" %></div>
+        <div>Message: <%= message.text %></div>
+      </div>
+      <% }) %>
+      <button type="submit">Send</button>
+    </form>
+  </body>
+</html>

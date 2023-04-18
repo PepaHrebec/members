@@ -19,4 +19,6 @@ router.get("/status-change", user_controller.status_change_get);
 
 router.post("/status-change", user_controller.status_change_post);
 
+router.get("/messages", user_controller.messages_get);
+
 module.exports = router;

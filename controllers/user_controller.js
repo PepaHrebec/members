@@ -1,6 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
+const Message = require("../models/message");
 const passport = require("passport");
 
 exports.user_sign_up_get = (req, res, next) => {
@@ -108,3 +109,15 @@ exports.user_log_in_post = [
     })(req, res, next);
   },
 ];
+
+exports.messages_get = (req, res, next) => {
+  Message.find({})
+    .populate("author")
+    .then((results) => {
+      res.render("message", {
+        title: "Messages",
+        user: req.user,
+        messages: results,
+      });
+    });
+};
