@@ -12,3 +12,26 @@ exports.messages_get = (req, res, next) => {
       });
     });
 };
+
+exports.messages_post = [
+  body("title").trim().escape().isLength({ min: 1 }),
+  body("text").trim().escape().isLength({ min: 1 }),
+  (req, res, next) => {
+    const errs = validationResult(req);
+    if (!errs.isEmpty()) {
+      res.redirect("/messages");
+    }
+    const message = new Message({
+      title: req.body.title,
+      text: req.body.text,
+      timestamp: new Date(),
+      author: req.user.id,
+    });
+    message
+      .save()
+      .then(() => {
+        return res.redirect("/messages");
+      })
+      .catch((err) => next(err));
+  },
+];

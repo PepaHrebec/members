@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const user_controller = require("../controllers/user_controller");
+const message_controller = require("../controllers/message_controller");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -19,6 +20,8 @@ router.get("/status-change", user_controller.status_change_get);
 
 router.post("/status-change", user_controller.status_change_post);
 
-// router.get("/messages", user_controller.messages_get);
+router.get("/messages", message_controller.messages_get);
+
+router.post("/messages", message_controller.messages_post);
 
 module.exports = router;
