@@ -17,7 +17,7 @@
     <div>
       <h2><%= message.title %></h2>
       <div>Author: <%= user ? message.author.username : "Hidden" %></div>
-      <div>Time: <%= user ? message.timestamp : "Hidden" %></div>
+      <div>Time: <%= user ? message.timeFormat : "Hidden" %></div>
       <div>Message: <%= message.text %></div>
     </div>
     <% }) %>
