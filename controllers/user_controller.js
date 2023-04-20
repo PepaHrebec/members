@@ -108,3 +108,17 @@ exports.user_log_in_post = [
     })(req, res, next);
   },
 ];
+
+exports.logout = (req, res, next) => {
+  if (req.user) {
+    req.logout(function (err) {
+      if (err) {
+        return next(err);
+      } else {
+        return res.redirect("/");
+      }
+    });
+  } else {
+    return res.redirect("/log-in");
+  }
+};

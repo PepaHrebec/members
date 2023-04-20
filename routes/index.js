@@ -26,4 +26,6 @@ router.post("/messages", message_controller.messages_post);
 
 router.post("/messages/:id/delete", message_controller.messages_delete);
 
+router.get("/log-out", user_controller.logout);
+
 module.exports = router;
