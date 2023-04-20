@@ -19,6 +19,12 @@
       <div>Author: <%= user ? message.author.username : "Hidden" %></div>
       <div>Time: <%= user ? message.timeFormat : "Hidden" %></div>
       <div>Message: <%= message.text %></div>
+      <% if (user && (user.id === message.author.id)) { %>
+      <form action="/messages/<%= message.id %>/delete" method="post">
+        <input type="text" name="messId" value="<%= message.id %>" hidden />
+        <button>Delete</button>
+      </form>
+      <% } %>
     </div>
     <% }) %>
   </body>

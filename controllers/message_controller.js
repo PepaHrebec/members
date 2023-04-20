@@ -35,3 +35,11 @@ exports.messages_post = [
       .catch((err) => next(err));
   },
 ];
+
+exports.messages_delete = (req, res, next) => {
+  Message.findByIdAndDelete(req.params.id)
+    .then(() => {
+      return res.redirect("/messages");
+    })
+    .catch((err) => next(err));
+};
